@@ -8,7 +8,7 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -73,33 +73,16 @@ plugins=(zsh-syntax-highlighting zsh-z)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-setopt autocd autopushd
+# Enable autocompletion
+autoload -U +X bashcompinit && bashcompinit
 autoload -Uz compinit
 compinit
 
-#####################
-# Customize Prompt
-######################
-#Get rid of git repo status
-PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%c%{$reset_color%} "
-
-#User and machine
-PROMPT="%{$fg[$hostcolor]%}$USER@%{$fg[$hostcolor]%}%m ${PROMPT}"
-
-#Date and time
-PROMPT='%{$fg[blue]%}[%D{%H:%M:%S}] '$PROMPT
-
-############################
-# Old Bash Scripts
-#############################
 #Aliases
 alias tmxu=tmux
 alias mdkir=mkdir
@@ -107,16 +90,6 @@ alias ll='ls -htlF'
 alias la='ls -A'
 alias l='ls -CF'
 alias e='exit'
-
-# Function to open a file or file browser
-function o() {
-  if [ -z "$1" ]
-  then
-    nautilus . &
-  else
-    xdg-open $1 &
-  fi
-}
 
 # New Lazygit function
 function lazygit() {
@@ -130,19 +103,11 @@ function textfind(){
   grep -rn '.' -e "$1"
 }
 
-#####################################
-# Configuration Vars
-
 # Set env var for R to save .Rhistory
 export R_HISTFILE=~/.Rhistory
 
 ########################################
 # Edit PATH(s)
 #####################################
-export PATH=$PATH:~/.local/bin #Add pip install directory to 
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:~/.miniconda/bin
+export PATH=$PATH:~/.local/bin 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-autoload -U +X bashcompinit && bashcompinit
