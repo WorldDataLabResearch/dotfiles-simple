@@ -1,0 +1,148 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+# plugins=(git)
+plugins=(zsh-syntax-highlighting zsh-z)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+setopt autocd autopushd
+autoload -Uz compinit
+compinit
+
+#####################
+# Customize Prompt
+######################
+#Get rid of git repo status
+PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%c%{$reset_color%} "
+
+#User and machine
+PROMPT="%{$fg[$hostcolor]%}$USER@%{$fg[$hostcolor]%}%m ${PROMPT}"
+
+#Date and time
+PROMPT='%{$fg[blue]%}[%D{%H:%M:%S}] '$PROMPT
+
+############################
+# Old Bash Scripts
+#############################
+#Aliases
+alias tmxu=tmux
+alias mdkir=mkdir
+alias ll='ls -htlF'
+alias la='ls -A'
+alias l='ls -CF'
+alias e='exit'
+
+# Function to open a file or file browser
+function o() {
+  if [ -z "$1" ]
+  then
+    nautilus . &
+  else
+    xdg-open $1 &
+  fi
+}
+
+# New Lazygit function
+function lazygit() {
+    git add -A
+    git commit -a -m "$1"
+    git push
+}
+
+#search in all text
+function textfind(){
+  grep -rn '.' -e "$1"
+}
+
+#####################################
+# Configuration Vars
+
+# Set env var for R to save .Rhistory
+export R_HISTFILE=~/.Rhistory
+
+########################################
+# Edit PATH(s)
+#####################################
+export PATH=$PATH:~/.local/bin #Add pip install directory to 
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:~/.miniconda/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+autoload -U +X bashcompinit && bashcompinit
