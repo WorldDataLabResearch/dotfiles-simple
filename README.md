@@ -10,6 +10,9 @@ This will be system dependent, on ubuntu you can run:
 sudo apt-get -y install zsh
 ```
 On newer versions of MacOS, zsh comes pre-installed.  On older versions you will have to install it using Homebrew.
+```
+brew install zsh
+```
 
 ## Add zsh plugins
 
