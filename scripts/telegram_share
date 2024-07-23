@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Send yourself a message over telegram (a messaging app like whatsapp). 
+# Very useful to get notifications from cloud computers
+# sent to your mobile phone.  Requires setting up a telegram bot.
+#
+# To set up the telegram the bot, use the tutorial at:
+# https://web.archive.org/web/20170606165842/https://www.forsomedefinition.com/automation/creating-telegram-bot-notifications/
+#
+# I keep it at /usr/local/bin so that it is available to $PATH
+# 
+# Usage:
+# 
+#   > telegram "process is done running!"
+#
+# Or in R
+#
+#   > library(RCurl)
+#   > getURL(paste0("https://api.telegram.org/bot624661733:AAHC_XXXXXXXXXXXXXXXXXXXXXXXXX_exRs/sendMessage?chat_id=999999999&disable_web_page_preview=1&text=", 
+#   >               URLencode("process is done running!")))
+#   
+#   or
+#
+#   > system("telegram 'process is done'")
+#
+#
+# Then you should get a text on your phone with the message "process is done running!"
+
+curl --data-urlencode "text=$1" \
+  "https://api.telegram.org/bot999999999:AAHC_XXXXXXXXXXXXXXXXXXXXXXXXX_exRs/sendMessage?chat_id=999999999&disable_web_page_preview=1"
+

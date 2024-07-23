@@ -1,0 +1,43 @@
+#!/bin/bash -e
+
+# Check kernel log every second to see if any process has been killed, by the
+# Out Of Memory (OOM) killer. If so, notify you or turn off the computer.
+#
+# Very useful if you are running a large, expensive VM process and dont want 
+# it to keep running if the process ran out of memory.
+#
+# Relevant to: https://unix.stackexchange.com/questions/591144/trigger-a-script-when-oom-killer-kills-a-process
+
+#Clear kernel log
+sudo truncate /var/log/kern.log --size 0
+
+while getopts ":k:" opt; do
+  echo "Will kill on oom event"
+  kill=true
+done
+
+if [[ "$kill" != true ]]
+then
+  echo "WILL NOT kill on oom event; use -d to kill"
+fi
+
+while true; do
+  echo "Checking logs"
+  VAR=$(cat /var/log/kern.log | grep oom_kill_process | wc -l)
+  if [[ $VAR -gt 0 ]]
+  then 
+    telegram "Recent OOM killer activity in logs on $HOSTNAME"
+    if [[ "$kill" = true ]]
+    then
+      telegram "Powering Off"
+      sudo poweroff
+    else 
+      exit
+    fi
+  fi
+  sleep 5
+done
+
+#ALSO NOTE:
+# Proper way to clear log is > /var/log/kern.log
+
